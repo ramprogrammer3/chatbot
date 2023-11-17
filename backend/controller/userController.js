@@ -121,9 +121,15 @@ exports.signup = async(req,res)=>{
 exports.getAllUser = async(req,res)=>{
     try {
 
-        res.send({
-            msg : "user found"
-        })
+       // get All User
+       const users = await User.find();
+    
+       // response
+       return res.status(200).json({
+        success : true,
+        message : "All user data found",
+        users
+       })
         
     } catch (error) {
         return res.status(500).json({
