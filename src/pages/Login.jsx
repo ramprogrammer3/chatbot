@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [formdata, setFormdata] = useState({
     email: "",
     password: "",
@@ -16,15 +19,21 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formdata)
-  }
+
+    if(formdata.password.length < 6){
+      toast.error("password must be at least 6 characters long ");
+      return;
+    }
+
+    console.log(formdata);
+  };
 
   return (
     <div>
       <div className="w-11/12 max-w-[500px] mx-auto  mt-14 border border-blue-300 p-10 rounded-md">
-        <p className="text-center text-2xl tracking-wider">login page </p>
+        <p className="text-center text-2xl tracking-wider">login form </p>
         <form className="mt-5 flex flex-col gap-y-3" onSubmit={handleSubmit}>
           <label>
             <p>Email : </p>
@@ -40,10 +49,10 @@ const Login = () => {
             />
           </label>
 
-          <label>
+          <label className="relative">
             <p>Password : </p>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               onChange={handleChange}
               value={formdata.password}
@@ -52,6 +61,14 @@ const Login = () => {
              focus:outline-blue-400 rounded-md text-center"
               required
             />
+            <span
+              onClick={() => {
+                setShowPassword(!showPassword);
+              }}
+              className="absolute right-[10px] bottom-[5px] cursor-pointer"
+            >
+              {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
+            </span>
           </label>
           <button
             type="submit"
